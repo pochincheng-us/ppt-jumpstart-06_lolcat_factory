@@ -1,4 +1,6 @@
 import os
+import platform
+import subprocess
 
 import cat_service
 
@@ -26,10 +28,29 @@ def get_or_create_output_folder():
 
 
 def download_cats(folder):
+    print('Contacting server to download cats...')
     cat_count = 8
     for i in range(1, cat_count):
         name = 'lolcat_{}'.format(i)
+        print('Downloading cat ' + name)
         cat_service.get_cat(folder, name)
+    print('done.')
+
+
+def display_cats(folder):
+    # open folder
+    print('Displaying cats in OS window.')
+    print(folder)
+    if platform.system() == 'Darwin':
+        subprocess.call(['open', folder])
+    elif platform.system() == 'Windows':
+        # subprocess.call(['start', folder], shell=True) // This works
+        subprocess.call(['explorer', folder])
+    elif platform.system() == 'Linux':
+        subprocess.call(['xdg-open', folder])
+    else:
+        print("We don't support your os: " + platform.system())
+    pass
 
 
 def main():
@@ -37,9 +58,7 @@ def main():
     folder = get_or_create_output_folder()
     print('Found or created folder: ' + folder)
     download_cats(folder)
-    # get or create output folder
-    # download cats
-    # display cats
+    display_cats(folder)
 
 
 if __name__ == '__main__':
