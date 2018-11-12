@@ -1,5 +1,7 @@
 import os
 
+import cat_service
+
 
 def print_the_header():
     app_name = 'CAT FACTORY'
@@ -23,11 +25,18 @@ def get_or_create_output_folder():
     return full_path
 
 
+def download_cats(folder):
+    cat_count = 8
+    for i in range(1, cat_count):
+        name = 'lolcat_{}'.format(i)
+        cat_service.get_cat(folder, name)
+
+
 def main():
     print_the_header()
     folder = get_or_create_output_folder()
     print('Found or created folder: ' + folder)
-
+    download_cats(folder)
     # get or create output folder
     # download cats
     # display cats
